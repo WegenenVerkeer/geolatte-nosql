@@ -49,7 +49,7 @@ object GeolatteNoSqlBuild extends Build {
 
   //Build Settings applied to all projects
   lazy val commonBuildSettings = Seq(
-    organization := "org.geolatte.nosql",
+    organization := "be.wegenenverkeer",
     scalaVersion := "2.10.4",
     scalacOptions ++= Seq("-feature", "-language:postfixOps", "-language:implicitConversions"),
     resolvers ++= commonResolvers
