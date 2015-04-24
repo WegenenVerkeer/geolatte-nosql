@@ -1,0 +1,26 @@
+# Volgende variabelen worden extern gedefinieerd, e.g. in het script dat de ansible-playbook start.
+#  app_version:
+#  package_name:
+#  baseline_path:
+
+java_home: "/usr"
+
+app:
+  home: "/ONT/{{package_name}}/app"
+  service: "{{package_name}}"
+  restart: false
+  user: "{{package_name}}"
+  java_opts: "-J-Xms256m -J-Xmx512m"
+  context: "geolatte-nosqlfs"
+
+host:
+  ip: "{{package_name}}"
+  # poort nummer waarop de applicatie wordt opgestart
+  port: "9000"
+  # publieke url van de app
+  url: http://vm/{{package_name}}
+
+fs:
+  db: postgresql
+  postgresql:
+    url: "postgresql://nosql:nosql@geolatte-nosql-postgres:49042/nosql"
