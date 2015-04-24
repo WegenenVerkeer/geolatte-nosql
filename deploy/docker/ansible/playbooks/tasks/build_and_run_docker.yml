@@ -10,15 +10,15 @@
      action: command docker build --no-cache={{no_cache}} -t geolatte-nosql {{docker_dir}}
 
    - name: run geolatte-nosql postgres
-     action: command docker run -d --name="geolatte-nosql-postgres" --hostname="geolatte-nosql-postgres" -p 49042:5432 wegenenverkeer/postgres /sbin/my_init --enable-insecure-key
+     action: command docker run -d --name="geolatte-nosql-postgres" --hostname="geolatte-nosql-postgres" -p 49062:5432 wegenenverkeer/postgres /sbin/my_init --enable-insecure-key
 
-   - wait_for: port=49042 delay=10
+   - wait_for: port=49062 delay=10
 
-   - shell: PGPASSWORD=docker psql -U docker -h 0.0.0.0 -p 49042 -d postgres --command "CREATE USER nosql WITH SUPERUSER PASSWORD 'nosql';"
+   - shell: PGPASSWORD=docker psql -U docker -h 0.0.0.0 -p 49062 -d postgres --command "CREATE USER nosql WITH SUPERUSER PASSWORD 'nosql';"
 
-   - shell: PGPASSWORD=docker createdb -U docker -h 0.0.0.0 -p 49042 -O nosql --template=template_postgis2.1 nosql
+   - shell: PGPASSWORD=docker createdb -U docker -h 0.0.0.0 -p 49062 -O nosql --template=template_postgis2.1 nosql
 
    - name: run geolatte-nosql container
-     action: command docker run -d --name="geolatte-nosql" --hostname="geolatte-nosql" -p 49044:9000 geolatte-nosql /sbin/my_init --enable-insecure-key
+     action: command docker run -d --name="geolatte-nosql" --hostname="geolatte-nosql" --link geolatte-nosql-postgres:db -p 49064:9000 geolatte-nosql /sbin/my_init --enable-insecure-key
 
-   - wait_for: port=49044 delay=10
+   - wait_for: port=49064 delay=10
