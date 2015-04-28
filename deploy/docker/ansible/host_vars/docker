@@ -23,4 +23,4 @@ host:
 fs:
   db: postgresql
   postgresql:
-    url: "postgresql://nosql:nosql@db:49062/nosql"
+    url: "postgresql://nosql:nosql@db:5432/nosql"
