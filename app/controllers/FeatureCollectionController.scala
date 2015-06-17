@@ -89,32 +89,32 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
         implicit val format = QueryParams.FMT.extract
 
         Logger.info(s"Query string $queryStr on $db, collection $collection")
-          repository.metadata(db, collection).flatMap(md =>
-            doQuery(db, collection, md, start, limit).map{
-              case (_, x) => enumJsonToResult(x)
-            }.map{
-              x => toSimpleResult(x)
-            }
-          ).recover {
-            case ex: InvalidQueryException => BadRequest(s"${ex.getMessage}")
-          }.recover (commonExceptionHandler(db, collection))
+        repository.metadata(db, collection).flatMap(md =>
+          doQuery(db, collection, md, start, limit).map{
+            case (_, x) => enumJsonToResult(x)
+          }.map{
+            x => toSimpleResult(x)
+          }
+        ).recover {
+          case ex: InvalidQueryException => BadRequest(s"${ex.getMessage}")
+        }.recover (commonExceptionHandler(db, collection))
       }
     )
 
 
   def download(db: String, collection: String) = repositoryAction {
-      implicit request => {
-        Logger.info(s"Downloading $db/$collection.")
-        implicit val format = QueryParams.FMT.extract(request.queryString)
-        repository.query(db, collection, SpatialQuery()).map {
-          case (_, x) => enumJsonToResult(x)
-        }.map{
-          x => toSimpleResult(x)
-        }.recover {
-          commonExceptionHandler(db, collection)
-        }
+    implicit request => {
+      Logger.info(s"Downloading $db/$collection.")
+      implicit val format = QueryParams.FMT.extract(request.queryString)
+      repository.query(db, collection, SpatialQuery()).map {
+        case (_, x) => enumJsonToResult(x)
+      }.map{
+        x => toSimpleResult(x)
+      }.recover {
+        commonExceptionHandler(db, collection)
       }
     }
+  }
 
 
   def collectFeatures : Iteratee[JsObject, List[JsObject]] =
@@ -165,11 +165,11 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
         utilities.JsonHelper.flatten(v) sortBy {
           case (k,v) => k
         } map {
-        case (k, v: JsString)   => (k, encode(v) )
-        case (k, v: JsNumber)   => (k, Json.stringify(v) )
-        case (k, v: JsBoolean)  => (k, Json.stringify(v) )
-        case (k, _) => (k, "")
-      }
+          case (k, v: JsString)   => (k, encode(v) )
+          case (k, v: JsNumber)   => (k, Json.stringify(v) )
+          case (k, v: JsBoolean)  => (k, Json.stringify(v) )
+          case (k, _) => (k, "")
+        }
 
 
       def project(js: JsObject)(selector: PartialFunction[(String, String), String], geomToString: Geometry => String) : Seq[String] = {
@@ -186,24 +186,16 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
       val toCsvRecord = (js: JsObject) => project(js)({
         case (k, v) => v
         case _ => "None"
-<<<<<<< HEAD
-      }, g => g.asText).mkString("|").replaceAll("\n", "").replaceAll("\r", "")
-=======
       }, g => g.asText).mkString(sep)
->>>>>>> ce24d8b760f116dbb954a2fe8cf893914b993e57
 
       val toCsvHeader = (js: JsObject) => project(js)({
         case (k, v) => k
         case _ => "None"
-<<<<<<< HEAD
-      }, _ => "geometry-wkt").mkString("|")
-=======
       }, _ => "geometry-wkt").mkString(sep)
->>>>>>> ce24d8b760f116dbb954a2fe8cf893914b993e57
 
       val toCsv : (Int, JsObject) => String = (i,js) => Try {
-          if (i != 0) toCsvRecord(js)
-          else toCsvHeader(js)  + "\n" + toCsvRecord(js)
+        if (i != 0) toCsvRecord(js)
+        else toCsvHeader(js)  + "\n" + toCsvRecord(js)
       } match {
         case Success(v) => v
         case Failure(t) => {
@@ -219,7 +211,7 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
     }
 
   private def doQuery(db: String, collection: String, smd: Metadata, start: Option[Int] = None, limit: Option[Int] = None)
-                            (implicit queryStr: Map[String, Seq[String]]) : Future[(Option[Long], Enumerator[JsObject])] =
+                     (implicit queryStr: Map[String, Seq[String]]) : Future[(Option[Long], Enumerator[JsObject])] =
     queryString2SpatialQuery(db,collection,smd).flatMap( q =>  repository.query(db, collection, q, start, limit) )
 
 
