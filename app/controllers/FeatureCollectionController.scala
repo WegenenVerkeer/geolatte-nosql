@@ -158,7 +158,7 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
       val encoder = new DefaultCsvEncoder()
 
       val cc = new CsvContext(0,0,0)
-      def encode(v: JsString) = "\"" + encoder.encode(v.value, cc, CsvPreference.STANDARD_PREFERENCE) + "\""
+      def encode(v: JsString) = "\"" + encoder.encode(v.value, cc, CsvPreference.STANDARD_PREFERENCE).replaceAll("\n", "").replaceAll("\r", "") + "\""
 
 
       def expand(v : JsObject) : Seq[(String, String)] =
@@ -186,7 +186,7 @@ object FeatureCollectionController extends AbstractNoSqlController with FutureIn
       val toCsvRecord = (js: JsObject) => project(js)({
         case (k, v) => v
         case _ => "None"
-      }, g => g.asText).mkString(sep).replaceAll("\n", "").replaceAll("\r", "")
+      }, g => g.asText).mkString(sep)
 
       val toCsvHeader = (js: JsObject) => project(js)({
         case (k, v) => k
