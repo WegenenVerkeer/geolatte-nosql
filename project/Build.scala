@@ -1,6 +1,7 @@
 import sbt._
 import Keys._
 import play.Project._
+import com.typesafe.sbt.SbtNativePackager._
 
 object GeolatteNoSqlBuild extends Build {
 
@@ -60,9 +61,41 @@ object GeolatteNoSqlBuild extends Build {
   def itFilter(name: String): Boolean = name startsWith "integration"
   def unitFilter(name: String): Boolean = !itFilter(name)
 
+
+  val defaultPublishSetting = Seq(
+    crossPaths := false,
+    publishTo <<= version {
+      (v: String) =>
+        val nexus = "https://collab.mow.vlaanderen.be/nexus/content/repositories/"
+        if (v.trim.endsWith("SNAPSHOT"))
+          Some("dev-collab snapshots" at nexus + "snapshots")
+        else
+          Some("dev-collab releases" at nexus + "releases")
+    },
+    publishMavenStyle := true
+  )
+
+  val dist = com.typesafe.sbt.SbtNativePackager.NativePackagerKeys.dist
+
+  val distHack = TaskKey[sbt.File]("dist-hack", "Hack voor publishen van dist")
+
+  val dataloaderDistSettings = Seq[Setting[_]](
+    publish <<= (publish) dependsOn dist,
+    publishLocal <<= (publishLocal) dependsOn dist,
+    artifact in distHack ~= {
+      (art: Artifact) =>
+        art.copy(`type` = "zip", extension = "zip")
+    },
+    distHack <<= (target in Universal, normalizedName, version) map {
+      (t, d, v) =>
+        val packageName = "%s-%s" format(appName, v)
+        t / (packageName + ".zip")
+    }
+  ) ++ Seq(addArtifact(artifact in distHack, distHack).settings: _*)
+
   //Settings applied to all projects
   lazy val defaultSettings =
-    commonBuildSettings ++
+    commonBuildSettings ++ defaultPublishSetting ++ dataloaderDistSettings
       Seq(
         libraryDependencies ++= dependencies,
         javaOptions in(Test, run) += "-XX:MaxPermSize=128m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005",
