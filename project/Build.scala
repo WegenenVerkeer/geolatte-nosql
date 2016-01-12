@@ -6,7 +6,7 @@ import com.typesafe.sbt.SbtNativePackager._
 object GeolatteNoSqlBuild extends Build {
 
   val appName = "geolatte-nosql"
-  val appVersion = "1.5-SNAPSHOT"
+  val appVersion = "1.5"
 
   //Resolvers
   lazy val commonResolvers = Seq(
