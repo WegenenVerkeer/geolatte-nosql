@@ -5,7 +5,10 @@ import sbt._
 object GeolatteNoSqlBuild extends Build {
 
   val appName = "geolatte-nosql"
-  val appVersion = "1.5-SNAPSHOT"
+
+  val snapshotSuffix = "SNAPSHOT"
+  val base_version = "1.5"
+  val appVersion = base_version + "-" + sys.props.getOrElse("bamboo_buildNumber", snapshotSuffix)
 
   //Resolvers
   lazy val commonResolvers = Seq(
