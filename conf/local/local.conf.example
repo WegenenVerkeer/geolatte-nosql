@@ -1,0 +1,1 @@
+fs.postgresql.url="postgresql://nosql:nosql@local.awv:5432/nosql"

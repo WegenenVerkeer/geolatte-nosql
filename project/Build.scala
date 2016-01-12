@@ -1,7 +1,6 @@
-import sbt._
-import Keys._
 import play.Project._
-import com.typesafe.sbt.SbtNativePackager._
+import sbt.Keys._
+import sbt._
 
 object GeolatteNoSqlBuild extends Build {
 
@@ -86,7 +85,7 @@ object GeolatteNoSqlBuild extends Build {
       (art: Artifact) =>
         art.copy(`type` = "zip", extension = "zip")
     },
-    distHack <<= (target in Universal, normalizedName, version) map {
+    distHack <<= (target, normalizedName, version) map {
       (t, d, v) =>
         val packageName = "%s-%s" format(appName, v)
         t / (packageName + ".zip")
@@ -95,8 +94,8 @@ object GeolatteNoSqlBuild extends Build {
 
   //Settings applied to all projects
   lazy val defaultSettings =
-    commonBuildSettings ++ defaultPublishSetting ++ dataloaderDistSettings
-      Seq(
+    commonBuildSettings ++ defaultPublishSetting ++ dataloaderDistSettings ++
+       Seq(
         libraryDependencies ++= dependencies,
         javaOptions in(Test, run) += "-XX:MaxPermSize=128m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005",
         javacOptions ++= Seq("-source", "1.6", "-target", "1.6")

@@ -1,5 +1,6 @@
+import play.Project._
 import com.typesafe.sbt.SbtNativePackager._
-import NativePackagerHelper._
+import com.typesafe.sbt.packager.Keys._
 
 /**
  * Dit mapt de deploy directory in de zip file van het artifact dat via het 'dist' commando gebouwd wordt via de univeral packager. Deze
@@ -10,4 +11,8 @@ import NativePackagerHelper._
  * sbt> dist
  *
  */
-mappings in Universal ++= directory(baseDirectory.value / "deploy")
+mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "deploy") -> "deploy")
+
+packageArchetype.java_server
+
+mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "conf") -> "conf")
