@@ -8,9 +8,9 @@ serverLoading in Debian := ServerLoader.SystemV
 //dit zorgt ervoor dat de reverse-proxy wordt aangepast
 debianControlFile in Debian ~= { (controlFile: File) =>
   IO.append(controlFile,
-    """XBS-Private-BaseUrl: http://{{ ip_address }}:8080/nosql
-      |XBS-Private-HappyUrl: http://{{ ip_address }}:8080/nosql/loadbal.html
-      |XBS-Private-Extra-Mappings-Json: [ { "pad": "nosql", "url": "http://{{ ip_address }}:8080/nosql" } ]
+    """XBS-Private-BaseUrl: http://{{ ip_address }}:8080/geolatte-nosqlfs
+      |XBS-Private-HappyUrl: http://{{ ip_address }}:8080/geolatte-nosqlfs/loadbal.html
+      |XBS-Private-Extra-Mappings-Json: [ { "pad": "geolatte-nosqlfs", "url": "http://{{ ip_address }}:8080/geolatte-nosqlfs" } ]
       |""".stripMargin)
   controlFile
 }
@@ -18,7 +18,7 @@ debianControlFile in Debian ~= { (controlFile: File) =>
 
 linuxPackageMappings in Debian <+= (name in Universal, baseDirectory in Debian) map { (name, dir) =>
   (packageMapping(
-    (dir / "debian/changelog") -> "/usr/share/doc/nosql/changelog.Debian.gz"
+    (dir / "debian/changelog") -> "/usr/share/doc/geolatte-nosql/changelog.Debian.gz"
   ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
 }
 

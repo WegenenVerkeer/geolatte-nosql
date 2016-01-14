@@ -2,4 +2,4 @@ include "application.conf"
 
 fs.postgresql.url="postgresql://nosql:nosql@db:5432/nosql"
 
-application.context="/nosql"
+application.context="/geolatte-nosqlfs"
