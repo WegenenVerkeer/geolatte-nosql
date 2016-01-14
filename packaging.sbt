@@ -10,7 +10,6 @@ debianControlFile in Debian ~= { (controlFile: File) =>
   IO.append(controlFile,
     """XBS-Private-BaseUrl: http://{{ ip_address }}:8080/geolatte-nosqlfs
       |XBS-Private-HappyUrl: http://{{ ip_address }}:8080/geolatte-nosqlfs/loadbal.html
-      |XBS-Private-Extra-Mappings-Json: [ { "pad": "geolatte-nosqlfs", "url": "http://{{ ip_address }}:8080/geolatte-nosqlfs" } ]
       |""".stripMargin)
   controlFile
 }
