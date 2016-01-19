@@ -109,7 +109,7 @@ object GeolatteNoSqlBuild extends Build {
     Keys.fork in Test := false, //Fork a new JVM for running tests
     testOptions in Test := Seq(Tests.Filter(unitFilter)),
     parallelExecution in ItTest := false,
-    testOptions in ItTest := Seq(Tests.Argument("sequential"), Tests.Filter(itFilter))
+    testOptions in ItTest := Seq(Tests.Argument("sequential"), Tests.Filter(itFilter), Tests.Argument("junitxml"))
   )
 
   val main = play.Project(
