@@ -16,3 +16,5 @@ mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "deploy
 packageArchetype.java_server
 
 mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "conf") -> "conf")
+
+testOptions in Test += Tests.Argument("junitxml")
