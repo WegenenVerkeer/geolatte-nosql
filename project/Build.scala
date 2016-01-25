@@ -4,7 +4,7 @@ import sbt._
 
 object GeolatteNoSqlBuild extends Build {
 
-  val appName = "geolatte-nosql"
+  val appName = "geolatte-nosqlfs"
 
   val snapshotSuffix = "SNAPSHOT"
   val base_version = "1.5"
