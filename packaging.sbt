@@ -1,6 +1,4 @@
 import com.typesafe.sbt.packager.archetypes.ServerLoader
-import com.typesafe.sbt.SbtNativePackager._
-import com.typesafe.sbt.packager.Keys._
 
 serverLoading in Debian := ServerLoader.SystemV
 
@@ -13,7 +11,6 @@ debianControlFile in Debian ~= { (controlFile: File) =>
       |""".stripMargin)
   controlFile
 }
-
 
 linuxPackageMappings in Debian <+= (name in Universal, baseDirectory in Debian) map { (name, dir) =>
   (packageMapping(
