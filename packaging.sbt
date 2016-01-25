@@ -17,7 +17,7 @@ debianControlFile in Debian ~= { (controlFile: File) =>
 
 linuxPackageMappings in Debian <+= (name in Universal, baseDirectory in Debian) map { (name, dir) =>
   (packageMapping(
-    (dir / "debian/changelog") -> "/usr/share/doc/geolatte-nosql/changelog.Debian.gz"
+    (dir / "debian/changelog") -> "/usr/share/doc/geolatte-nosqlfs/changelog.Debian.gz"
   ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
 }
 
