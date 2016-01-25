@@ -1,5 +1,5 @@
 import play.Project._
-import NativePackagerHelper._
+import com.typesafe.sbt.SbtNativePackager._
 import com.typesafe.sbt.packager.Keys._
 
 /**
@@ -13,4 +13,8 @@ import com.typesafe.sbt.packager.Keys._
  */
 mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "deploy") -> "deploy")
 
+packageArchetype.java_server
+
 mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "conf") -> "conf")
+
+packageDescription in Debian := "Geolatte Nosqlfs"
