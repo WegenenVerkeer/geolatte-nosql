@@ -33,6 +33,4 @@ publishTo <<= version { (v: String) =>
 publishMavenStyle in Debian := false
 publishMavenStyle := true
 
-packageDescription in Debian := "Geolatte NOSQLFS"
-
 maintainer in Debian := "AWV"
