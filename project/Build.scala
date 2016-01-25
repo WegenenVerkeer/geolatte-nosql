@@ -1,12 +1,14 @@
-import sbt._
-import Keys._
 import play.Project._
-import com.typesafe.sbt.SbtNativePackager._
+import sbt.Keys._
+import sbt._
 
 object GeolatteNoSqlBuild extends Build {
 
   val appName = "geolatte-nosql"
-  val appVersion = "1.5-SNAPSHOT"
+
+  val snapshotSuffix = "SNAPSHOT"
+  val base_version = "1.5"
+  val appVersion = base_version + "-" + sys.props.getOrElse("bamboo_buildNumber", snapshotSuffix)
 
   //Resolvers
   lazy val commonResolvers = Seq(
@@ -86,7 +88,7 @@ object GeolatteNoSqlBuild extends Build {
       (art: Artifact) =>
         art.copy(`type` = "zip", extension = "zip")
     },
-    distHack <<= (target in Universal, normalizedName, version) map {
+    distHack <<= (target, normalizedName, version) map {
       (t, d, v) =>
         val packageName = "%s-%s" format(appName, v)
         t / (packageName + ".zip")
@@ -95,8 +97,8 @@ object GeolatteNoSqlBuild extends Build {
 
   //Settings applied to all projects
   lazy val defaultSettings =
-    commonBuildSettings ++ defaultPublishSetting ++ dataloaderDistSettings
-      Seq(
+    commonBuildSettings ++ defaultPublishSetting ++ dataloaderDistSettings ++
+       Seq(
         libraryDependencies ++= dependencies,
         javaOptions in(Test, run) += "-XX:MaxPermSize=128m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005",
         javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
@@ -105,9 +107,9 @@ object GeolatteNoSqlBuild extends Build {
   //Options for running tests
   val testSettings = Seq(
     Keys.fork in Test := false, //Fork a new JVM for running tests
-    testOptions in Test := Seq(Tests.Filter(unitFilter)),
+    testOptions in Test := Seq(Tests.Filter(unitFilter), Tests.Argument("junitxml")),
     parallelExecution in ItTest := false,
-    testOptions in ItTest := Seq(Tests.Argument("sequential"), Tests.Filter(itFilter))
+    testOptions in ItTest := Seq(Tests.Argument("sequential"), Tests.Filter(itFilter), Tests.Argument("junitxml"))
   )
 
   val main = play.Project(

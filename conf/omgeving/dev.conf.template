@@ -1,0 +1,3 @@
+fs.postgresql.url="postgresql://{{ nosql_dbhostuser }}:{{ nosql_dbhostpass }}@{{ nosql_dbhost }}:{{ nosql_dbhostport }}/{{ nosql_dbhostdatabase }}"
+
+application.context="/geolatte-nosqlfs"

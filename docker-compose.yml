@@ -1,0 +1,14 @@
+db:
+  build: docker/nosql-postgres
+  hostname: db
+  command: /sbin/my_init --enable-insecure-key
+  ports:
+   - "5432:5432"
+
+#Used for testing debian install
+#nosql:
+#  build: docker/nosql
+#  ports:
+#   - "8080:8080"
+#  links:
+#   - db

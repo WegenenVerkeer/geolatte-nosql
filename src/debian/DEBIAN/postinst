@@ -1,0 +1,24 @@
+${{header}}
+${{loader-functions}}
+${{control-functions}}
+
+addGroup ${{daemon_group}}
+addUser ${{daemon_user}} ${{daemon_group}} "${{app_name}} user-daemon" "${{daemon_shell}}"
+
+${{chown-paths}}
+
+if [ `which ufw` ] ; then
+  sudo ufw allow 8080/tcp
+fi
+
+echo "Generating config file"
+# Use penfold to generate config file based on template
+if [ `which penfold` ] ; then
+  penfold -r -m /usr/share/geolatte-nosql/conf
+else
+  mv /usr/share/geolatte-nosql/conf/nosql.conf.docker /usr/share/geolatte-nosql/conf/nosql.conf
+fi
+
+chown ${{daemon_user}}:${{daemon_group}} /usr/share/geolatte-nosql
+
+startService ${{app_name}} || echo "${{app_name}} could not be registered or started"

@@ -11,7 +11,7 @@ resolvers ++= Seq(
 logLevel := Level.Warn
 
 // Use the Play sbt plugin for Play project
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.1")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.6")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.8.0")
 
