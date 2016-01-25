@@ -14,11 +14,11 @@ fi
 echo "Generating config file"
 # Use penfold to generate config file based on template
 if [ `which penfold` ] ; then
-  penfold -r -m /usr/share/geolatte-nosql/conf
+  penfold -r -m /usr/share/geolatte-nosqlfs/conf
 else
-  mv /usr/share/geolatte-nosql/conf/nosql.conf.docker /usr/share/geolatte-nosql/conf/nosql.conf
+  mv /usr/share/geolatte-nosqlfs/conf/nosql.conf.docker /usr/share/geolatte-nosqlfs/conf/nosql.conf
 fi
 
-chown ${{daemon_user}}:${{daemon_group}} /usr/share/geolatte-nosql
+chown ${{daemon_user}}:${{daemon_group}} /usr/share/geolatte-nosqlfs
 
 startService ${{app_name}} || echo "${{app_name}} could not be registered or started"
