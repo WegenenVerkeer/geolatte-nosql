@@ -1,0 +1,13 @@
+#!/bin/bash
+
+service geolatte-nosqlfs stop
+
+rm /var/run/geolatte-nosqlfs/running.pid
+
+until pg_isready -h db; do
+  echo "return code = $?"
+done
+
+service geolatte-nosqlfs restart
+
+/sbin/my_init --enable-insecure-key
