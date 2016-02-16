@@ -79,7 +79,7 @@ object GeolatteNoSqlBuild extends Build {
     publishMavenStyle := true
   )
 
-  val dist = com.typesafe.sbt.SbtNativePackager.NativePackagerKeys.dist
+  val dist = com.typesafe.sbt.packager.Keys.dist
 
   val distHack = TaskKey[sbt.File]("dist-hack", "Hack voor publishen van dist")
 
