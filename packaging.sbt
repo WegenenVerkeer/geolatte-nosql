@@ -21,6 +21,11 @@ linuxPackageMappings in Debian <+= (name in Universal, baseDirectory in Debian) 
   ) withUser "root" withGroup "root" withPerms "0644" gzipped) asDocs()
 }
 
+linuxPackageMappings in Debian <+= (name in Universal, baseDirectory in Debian) map { (name, dir) =>
+  packageMapping(
+    (dir / "debian/geolatte-nosqlfs_beaver.conf") -> "/etc/beaver/conf.d/geolatte-nosqlfs_beaver.conf"
+  ) withUser "root" withGroup "root" withPerms "0644"
+}
 
 publishTo <<= version { (v: String) =>
   val nexus = "https://collab.mow.vlaanderen.be/nexus/content/repositories/"

@@ -21,4 +21,8 @@ fi
 
 chown ${{daemon_user}}:${{daemon_group}} /usr/share/geolatte-nosqlfs
 
+sudo -u ${{daemon_user}} touch /var/log/geolatte-nosqlfs/logstash_application.log
+
 startService ${{app_name}} || echo "${{app_name}} could not be registered or started"
+
+service beaver restart | true
