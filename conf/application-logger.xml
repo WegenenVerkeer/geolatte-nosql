@@ -53,6 +53,22 @@
         </encoder>
     </appender>
 
+    <appender name="LOGSTASH_APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/logstash_application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>20</maxIndex>
+            <FileNamePattern>logs/application.%i.log.gz</FileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>50MB</MaxFileSize>
+        </triggeringPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <appender name="ASYNC_LOGSTASH_APPLICATION" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="LOGSTASH_APPLICATION"/>
+    </appender>
+
     <root level="info" additivity="false">
         <!--<appender-ref ref="STDOUT"/>-->
         <appender-ref ref="FILE"/>
@@ -76,6 +92,7 @@
     <logger name="requests" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="ASYNC_LOGSTASH_APPLICATION"/>
     </logger>
 
 </configuration>

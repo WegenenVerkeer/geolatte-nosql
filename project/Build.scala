@@ -27,6 +27,8 @@ object GeolatteNoSqlBuild extends Build {
     "net.sf.supercsv" % "super-csv" % "2.1.0",
     "nl.grons" %% "metrics-scala" % "3.0.4",
     "org.parboiled" %% "parboiled" % "2.0.1",
+    "ch.qos.logback" % "logback-classic" % "1.1.3",
+    "net.logstash.logback" % "logstash-logback-encoder" % "4.6",
     filters
   )
 

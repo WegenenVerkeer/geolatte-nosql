@@ -1,3 +1,4 @@
+/docker/nosql/*.deb
 /conf/local/local.conf
 logs
 project/project
