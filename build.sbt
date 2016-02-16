@@ -1,6 +1,5 @@
-import play.Project._
-import com.typesafe.sbt.SbtNativePackager._
-import com.typesafe.sbt.packager.Keys._
+import com.typesafe.sbt.SbtNativePackager.packageArchetype
+import com.typesafe.sbt.packager.MappingsHelper._
 
 /**
  * Dit mapt de deploy directory in de zip file van het artifact dat via het 'dist' commando gebouwd wordt via de univeral packager. Deze
@@ -11,10 +10,10 @@ import com.typesafe.sbt.packager.Keys._
  * sbt> dist
  *
  */
-mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "deploy") -> "deploy")
+mappings in Universal ++= directory(baseDirectory.value / "deploy")
 
 packageArchetype.java_server
 
-mappings in Universal ++= mapDirectoryAndContents((baseDirectory.value / "conf") -> "conf")
+mappings in Universal ++= directory(baseDirectory.value / "conf")
 
 packageDescription in Debian := "Geolatte Nosqlfs"

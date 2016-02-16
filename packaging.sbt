@@ -1,8 +1,13 @@
 import com.typesafe.sbt.packager.archetypes.ServerLoader
-import com.typesafe.sbt.SbtNativePackager._
-import com.typesafe.sbt.packager.Keys._
 
 serverLoading in Debian := ServerLoader.SystemV
+
+javaOptions in Universal ++= Seq(
+  "-J-Xmx768m",
+  "-Dfile.encoding=UTF-8",
+  "-Dhttp.port=8080",
+  "-Dconfig.file=/usr/share/geolatte-nosqlfs/conf/nosql.conf"
+)
 
 //toevoegen van custom entries aan de Debian control file
 //dit zorgt ervoor dat de reverse-proxy wordt aangepast
